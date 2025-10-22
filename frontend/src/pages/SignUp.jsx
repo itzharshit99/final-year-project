@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import api from "../api/axios.js";
 const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -32,9 +32,20 @@ const SignUp = () => {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Registration data:', formData)
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    try {
+      const response = await api.post("/api/student/register", formData);
+      console.log("✅ Registration successful:", response.data);
+      alert("Registration successful!");
+    } catch (error) {
+      console.error("❌ Registration failed:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Something went wrong!");
+    }
   }
 
   const nextStep = () => {
