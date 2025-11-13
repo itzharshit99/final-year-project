@@ -97,3 +97,17 @@ export const loginStudent = async (req, res) => {
     res.status(500).json({ message: "Login failed", error: error.message });
   }
 };
+
+
+export const getStudentDetails = async (req, res) => {
+  try {
+    const student = req.student;
+    res.status(200).json({
+      message: "Student details fetched successfully",
+      student,
+    });
+  } catch (error) {
+    console.error("Error fetching student details:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

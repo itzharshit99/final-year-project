@@ -8,6 +8,7 @@ import Courses from "./pages/Courses";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./utils/isProtected.jsx";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const location = useLocation();
@@ -25,6 +26,7 @@ const App = () => {
           path="/courses"
           element={<ProtectedRoute element={<Courses />} />}
         />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
       {!hiddenNavbarFooter && <Footer />}
     </div>
