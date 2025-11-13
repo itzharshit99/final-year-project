@@ -7,6 +7,7 @@ import Contact from "./pages/Contact";
 import Courses from "./pages/Courses";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./utils/isProtected.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -20,7 +21,10 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/courses" element={<Courses />} />
+        <Route
+          path="/courses"
+          element={<ProtectedRoute element={<Courses />} />}
+        />
       </Routes>
       {!hiddenNavbarFooter && <Footer />}
     </div>
