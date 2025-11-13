@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import api from "../api/axios.js";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,6 +23,11 @@ const Login = () => {
       const response = await api.post("/api/student/login", formData);
       console.log("✅ Login successful:", response.data);
       alert("Login successful!");
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        console.log("🔒 Token stored in localStorage:", response.data.token);
+      }
+      navigate("/courses");
     } catch (error) {
       console.error("❌ Login failed:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Invalid credentials!");

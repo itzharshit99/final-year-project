@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import api from "../api/axios.js";
+import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -42,6 +44,7 @@ const SignUp = () => {
       const response = await api.post("/api/student/register", formData);
       console.log("✅ Registration successful:", response.data);
       alert("Registration successful!");
+      navigate("/login");
     } catch (error) {
       console.error("❌ Registration failed:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Something went wrong!");
