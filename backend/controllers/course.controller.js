@@ -30,6 +30,7 @@ export const getAllCourse = async (req, res) => {
     }
 
     const courses = await Course.find(filter).sort({ createdAt: -1 });
+    // console.log(courses)
     res.status(200).json({ success: true, count: courses.length, courses });
   } catch (error) {
     console.error("Error fetching courses:", error);

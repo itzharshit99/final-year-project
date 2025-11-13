@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BookOpen, Clock, Users, Star, Search } from 'lucide-react'
+import { BookOpen, Clock, Users, Star, Search, CheckCircle } from 'lucide-react'
 import api from '../api/axios.js'
 
 const Courses = () => {
@@ -7,6 +7,8 @@ const Courses = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showPopup, setShowPopup] = useState(false) // 🆕
+  const [popupMessage, setPopupMessage] = useState('') // 🆕
 
   const categories = [
     { id: 'all', name: 'सभी कोर्स', nameEn: 'All Courses' },
@@ -23,8 +25,7 @@ const Courses = () => {
       try {
         setLoading(true)
         const res = await api.get('/api/course')
-        console.log(res)
-        setCourses(res.data.courses || []);
+        setCourses(res.data.courses || [])
       } catch (error) {
         console.error('Error fetching courses:', error)
       } finally {
@@ -33,6 +34,34 @@ const Courses = () => {
     }
     fetchCourses()
   }, [])
+
+  // ✅ Enroll Handler
+  const handleEnroll = async (courseId, courseTitle) => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      setPopupMessage('कृपया लॉगिन करें पहले 🙏')
+      setShowPopup(true)
+      return
+    }
+
+    try {
+      const res = await api.post(
+        '/api/enroll',
+        { courseId },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      )
+      console.log(res)
+      if (res.data.success) {
+        setPopupMessage(`✅ आपने "${courseTitle}" कोर्स सफलतापूर्वक ज्वाइन किया!`)
+        setShowPopup(true)
+      }
+    } catch (err) {
+      console.error(err)
+      const msg = err.response?.data?.message || 'कुछ गलत हो गया 😕'
+      setPopupMessage(msg)
+      setShowPopup(true)
+    }
+  }
 
   // ✅ Filter courses by category & search
   const filteredCourses = courses.filter((course) => {
@@ -48,7 +77,7 @@ const Courses = () => {
   })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 relative">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -196,7 +225,10 @@ const Courses = () => {
                           {course.rating}
                         </span>
                       </div>
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                      <button
+                        onClick={() => handleEnroll(course._id, course.title)} // 🆕
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                      >
                         शुरू करें
                       </button>
                     </div>
@@ -216,6 +248,23 @@ const Courses = () => {
           </>
         )}
       </div>
+
+      {/* 🆕 Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 text-center max-w-sm mx-auto shadow-lg">
+            <CheckCircle className="text-green-500 mx-auto mb-3" size={48} />
+            <h3 className="text-lg font-semibold mb-2">सूचना</h3>
+            <p className="text-gray-700 mb-4">{popupMessage}</p>
+            <button
+              onClick={() => setShowPopup(false)}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              ठीक है
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

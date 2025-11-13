@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import studentRoute from "./routes/student.route.js";
 import courseRoute from "./routes/course.route.js";
 import adminRoute from "./routes/admin.route.js";
+import enrollRoute from "./routes/enroll.route.js"
 dotenv.config()
 connectDB()
 const app = express();
@@ -30,7 +31,7 @@ app.get("/",(req,res)=>{
 app.use("/api/student",studentRoute);
 app.use("/api/course",courseRoute);
 app.use("/api/admin",adminRoute);
-
+app.use("/api/enroll",enrollRoute);
 app.listen(port,()=>{
   console.log(`server is listening on port ${port}`);
 })
