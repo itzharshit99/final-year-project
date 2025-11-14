@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BookOpen, Clock, Users, Star, Search, CheckCircle } from 'lucide-react'
+import { BookOpen, Clock, Users, Star, Search, CheckCircle, Eye, ArrowLeft } from 'lucide-react'
 import api from '../api/axios.js'
 
 const Courses = () => {
@@ -7,8 +7,9 @@ const Courses = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
-  const [showPopup, setShowPopup] = useState(false) // 🆕
-  const [popupMessage, setPopupMessage] = useState('') // 🆕
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupMessage, setPopupMessage] = useState('')
+  const [selectedCourse, setSelectedCourse] = useState(null) // 🆕 For Course Detail
 
   const categories = [
     { id: 'all', name: 'सभी कोर्स', nameEn: 'All Courses' },
@@ -63,7 +64,14 @@ const Courses = () => {
     }
   }
 
-  // ✅ Filter courses by category & search
+  const handleViewDetails = (course) => {
+    setSelectedCourse(course)
+  }
+
+  const handleBackToCourses = () => {
+    setSelectedCourse(null)
+  }
+
   const filteredCourses = courses.filter((course) => {
     const matchesCategory =
       selectedCategory === 'all' || course.category.id === selectedCategory
@@ -75,6 +83,16 @@ const Courses = () => {
 
     return matchesCategory && matchesSearch
   })
+
+  if (selectedCourse) {
+    return (
+      <CourseDetail
+        course={selectedCourse}
+        onBack={handleBackToCourses}
+        onEnroll={handleEnroll}
+      />
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 relative">
@@ -225,12 +243,22 @@ const Courses = () => {
                           {course.rating}
                         </span>
                       </div>
-                      <button
-                        onClick={() => handleEnroll(course._id, course.title)} // 🆕
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
-                      >
-                        शुरू करें
-                      </button>
+                      <div className="flex gap-2">
+                        {/* 🆕 View Details Button */}
+                        <button
+                          onClick={() => handleViewDetails(course)}
+                          className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1"
+                        >
+                          <Eye size={16} />
+                          <span>देखें</span>
+                        </button>
+                        <button
+                          onClick={() => handleEnroll(course._id, course.title)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                        >
+                          शुरू करें
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -249,7 +277,7 @@ const Courses = () => {
         )}
       </div>
 
-      {/* 🆕 Popup */}
+      {/* Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 text-center max-w-sm mx-auto shadow-lg">
@@ -265,6 +293,209 @@ const Courses = () => {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+// 🆕 Course Detail Component
+const CourseDetail = ({ course, onBack, onEnroll }) => {
+  const [activeTab, setActiveTab] = useState('overview')
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={onBack}
+            className="mb-4 flex items-center gap-2 text-white hover:text-blue-100 transition-colors"
+          >
+            <ArrowLeft size={20} />
+            <span>वापस जाएं</span>
+          </button>
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <img
+              src={
+                course.image ||
+                'https://images.unsplash.com/photo-1498079022511-d15614cb1c02?w=400&h=250&fit=crop'
+              }
+              alt={course.title}
+              className="w-full md:w-80 h-48 object-cover rounded-lg shadow-lg"
+            />
+            <div className="flex-1">
+              <div className="inline-block bg-white/20 px-3 py-1 rounded-full text-sm mb-3">
+                {course.class}
+              </div>
+              <h1 className="text-4xl font-bold mb-4">{course.title}</h1>
+              <p className="text-xl text-blue-100 mb-4">{course.description}</p>
+              <div className="flex flex-wrap gap-6 text-sm">
+                <div className="flex items-center gap-2">
+                  <Users size={20} />
+                  <span>{course.studentsEnrolled} छात्रों ने ज्वाइन किया</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star size={20} className="fill-yellow-300 text-yellow-300" />
+                  <span>{course.rating} रेटिंग</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock size={20} />
+                  <span>{course.lessons?.length || 0} लेसन</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          {/* Tabs */}
+          <div className="border-b">
+            <div className="flex gap-8 px-6">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`py-4 font-medium border-b-2 transition-colors ${
+                  activeTab === 'overview'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                विवरण
+              </button>
+              <button
+                onClick={() => setActiveTab('lessons')}
+                className={`py-4 font-medium border-b-2 transition-colors ${
+                  activeTab === 'lessons'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                पाठ्यक्रम
+              </button>
+              <button
+                onClick={() => setActiveTab('instructor')}
+                className={`py-4 font-medium border-b-2 transition-colors ${
+                  activeTab === 'instructor'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                शिक्षक
+              </button>
+            </div>
+          </div>
+
+          {/* Tab Content */}
+          <div className="p-6">
+            {activeTab === 'overview' && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                  कोर्स के बारे में
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-6">
+                  {course.description}
+                </p>
+                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">
+                      🎯 आप क्या सीखेंगे
+                    </h3>
+                    <ul className="space-y-2 text-gray-700">
+                      <li>• विषय की पूरी समझ</li>
+                      <li>• व्यावहारिक उदाहरण</li>
+                      <li>• अभ्यास प्रश्न</li>
+                      <li>• परीक्षा की तैयारी</li>
+                    </ul>
+                  </div>
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">
+                      📚 कोर्स की जानकारी
+                    </h3>
+                    <ul className="space-y-2 text-gray-700">
+                      <li>• स्तर: {course.class}</li>
+                      <li>• भाषा: हिंदी</li>
+                      <li>• कुल लेसन: {course.lessons?.length || 0}</li>
+                      <li>• सर्टिफिकेट: हां</li>
+                    </ul>
+                  </div>
+                </div>
+                <button
+                  onClick={() => onEnroll(course._id, course.title)}
+                  className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors text-lg"
+                >
+                  अभी ज्वाइन करें
+                </button>
+              </div>
+            )}
+
+            {activeTab === 'lessons' && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">पाठ्यक्रम</h2>
+                <div className="space-y-3">
+                  {course.lessons && course.lessons.length > 0 ? (
+                    course.lessons.map((lesson, index) => (
+                      <div
+                        key={lesson._id || index}
+                        className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                            {index + 1}
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-800">
+                              {lesson.title || `लेसन ${index + 1}`}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {lesson.duration || '30 मिनट'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-gray-400">
+                          {lesson.completed ? '✓' : '○'}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-600 text-center py-8">
+                      जल्द ही लेसन जोड़े जाएंगे
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'instructor' && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                  आपके शिक्षक
+                </h2>
+                <div className="flex items-start gap-6">
+                  <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-green-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">
+                    {course.instructor?.charAt(0) || 'T'}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                      {course.instructor || 'शिक्षक'}
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      अनुभवी शिक्षक | {course.category?.nameEn || 'विशेषज्ञ'}
+                    </p>
+                    <p className="text-gray-700 leading-relaxed">
+                      10+ वर्षों के शिक्षण अनुभव के साथ, हमारे शिक्षक गाँव के
+                      विद्यार्थियों को गुणवत्तापूर्ण शिक्षा प्रदान करने में विश्वास
+                      रखते हैं। सरल भाषा और व्यावहारिक उदाहरणों के साथ पढ़ाने की
+                      उनकी अनूठी शैली छात्रों को विषय को आसानी से समझने में मदद
+                      करती है।
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

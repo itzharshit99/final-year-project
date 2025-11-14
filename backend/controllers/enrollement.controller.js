@@ -35,8 +35,8 @@ export const enrollCourse = async (req, res) => {
 
 export const getMyCourses = async (req, res) => {
   try {
-    const userId = req.user._id;
-    const enrollments = await Enrollment.find({ user: userId }).populate("course");
+    const userId = req.student._id;
+    const enrollments = await Enrollment.find({ student: userId }).populate("course");
     res.json({ success: true, courses: enrollments.map(e => e.course) });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error fetching enrolled courses" });

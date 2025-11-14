@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, Calendar, MapPin, School, BookOpen, Users, Edit, GraduationCap } from 'lucide-react';
-
+import {Link} from "react-router-dom"
 export default function Profile() {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -241,9 +241,9 @@ export default function Profile() {
 
         {/* Action Buttons */}
         <div className="mt-6 grid md:grid-cols-2 gap-4">
-          <button className="bg-gradient-to-r from-green-500 to-blue-500 text-white py-4 rounded-2xl font-bold hover:from-green-600 hover:to-blue-600 transition-all shadow-lg text-lg">
+          <Link to='/my-courses' className="bg-gradient-to-r from-green-500 to-blue-500 text-white py-4 rounded-2xl font-bold hover:from-green-600 hover:to-blue-600 transition-all shadow-lg text-lg">
             📚 मेरे कोर्स / My Courses
-          </button>
+          </Link>
           <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 rounded-2xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg text-lg">
             🎯 प्रगति देखें / View Progress
           </button>
