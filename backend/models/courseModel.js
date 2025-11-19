@@ -33,7 +33,7 @@ const courseSchema = new mongoose.Schema(
     lessons: [
       {
         title: { type: String, required: true },
-        videoUrl: { type: String, required: true },
+        videoUrl: { type: String },
         duration: { type: String },
         resources: [{ type: String }], 
       },
@@ -48,20 +48,6 @@ const courseSchema = new mongoose.Schema(
     },
     class: {
       type: String,
-      enum: [
-        "1st Class",
-        "2nd Class",
-        "3rd Class",
-        "4th Class",
-        "5th Class",
-        "6th Class",
-        "7th Class",
-        "8th Class",
-        "9th Class",
-        "10th Class",
-        "11th Class",
-        "12th Class",
-      ],
       required: true
     },
     rating: {

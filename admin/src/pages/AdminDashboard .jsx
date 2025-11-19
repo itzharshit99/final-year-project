@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Home, BookOpen, Users, Settings, FileText, BarChart3, Menu, X, Video, Award, GraduationCap, TrendingUp, Clock, CheckCircle } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -86,8 +87,8 @@ const AdminDashboard = () => {
   ];
 
   const menuItems = [
-    { icon: Home, label: 'Dashboard', path: '/' },
-    { icon: BookOpen, label: 'Courses', path: '/courses' },
+    { icon: Home, label: 'Dashboard', path: '/dashboard' },
+    { icon: BookOpen, label: 'Courses', path: '/course' },
     { icon: Video, label: 'Videos', path: '/videos' },
     { icon: Users, label: 'Students', path: '/students' },
     { icon: GraduationCap, label: 'Teachers', path: '/teachers' },
@@ -96,6 +97,7 @@ const AdminDashboard = () => {
     { icon: BarChart3, label: 'Analytics', path: '/analytics' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
+  const navigate = useNavigate();
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -132,7 +134,11 @@ const AdminDashboard = () => {
             return (
               <button
                 key={item.label}
-                onClick={() => setActiveItem(item.label)}
+                onClick={() => {
+                  setActiveItem(item.label);
+                  navigate(item.path);
+                }}
+                
                 className={`w-full flex items-center space-x-3 px-4 py-3 mb-2 rounded-lg transition-all duration-200 ${
                   isActive
                     ? 'bg-white text-indigo-600 shadow-lg'
