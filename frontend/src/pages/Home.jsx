@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Chatbot from "../components/Chatbot";
 
 const Home = () => {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -360,6 +361,7 @@ const Home = () => {
 
         
       </div>
+      <Chatbot/>
     </div>
   );
 };
