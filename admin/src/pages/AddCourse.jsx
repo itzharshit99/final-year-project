@@ -40,10 +40,29 @@ export default function AddCourse() {
     setFormData({ ...formData, lessons: updated });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Course created successfully! ✅");
-    console.log(formData);
+
+    try {
+      const token = localStorage.getItem("adminToken");
+
+      const res = await fetch("http://localhost:3000/api/course", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // ⭐ token added
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      console.log("API Response:", data);
+
+      alert("Course created successfully! 🚀");
+    } catch (error) {
+      console.error("Error creating course:", error);
+      alert("Failed to create course ❌");
+    }
   };
 
   return (

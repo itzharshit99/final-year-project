@@ -1,88 +1,104 @@
-import React, { useState, useEffect } from 'react'
-import { BookOpen, Clock, Users, Star, Search, CheckCircle, Eye, ArrowLeft } from 'lucide-react'
-import api from '../api/axios.js'
+import React, { useState, useEffect } from "react";
+import {
+  BookOpen,
+  Clock,
+  Users,
+  Star,
+  Search,
+  CheckCircle,
+  Eye,
+  ArrowLeft,
+} from "lucide-react";
+import api from "../api/axios.js";
+import VideoPlayer from "../components/VideoPlayer .jsx";
 
 const Courses = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [searchQuery, setSearchQuery] = useState('')
-  const [courses, setCourses] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [showPopup, setShowPopup] = useState(false)
-  const [popupMessage, setPopupMessage] = useState('')
-  const [selectedCourse, setSelectedCourse] = useState(null) // 🆕 For Course Detail
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState(null); // 🆕 For Course Detail
 
   const categories = [
-    { id: 'all', name: 'सभी कोर्स', nameEn: 'All Courses' },
-    { id: 'hindi', name: 'हिंदी', nameEn: 'Hindi' },
-    { id: 'english', name: 'अंग्रेज़ी', nameEn: 'English' },
-    { id: 'math', name: 'गणित', nameEn: 'Mathematics' },
-    { id: 'science', name: 'विज्ञान', nameEn: 'Science' },
-    { id: 'computer', name: 'कंप्यूटर', nameEn: 'Computer' }
-  ]
+    { id: "all", name: "सभी कोर्स", nameEn: "All Courses" },
+    { id: "hindi", name: "हिंदी", nameEn: "Hindi" },
+    { id: "english", name: "अंग्रेज़ी", nameEn: "English" },
+    { id: "math", name: "गणित", nameEn: "Mathematics" },
+    { id: "science", name: "विज्ञान", nameEn: "Science" },
+    { id: "computer", name: "कंप्यूटर", nameEn: "Computer" },
+  ];
 
   // ✅ Fetch all courses from API
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        setLoading(true)
-        const res = await api.get('/api/course')
-        setCourses(res.data.courses || [])
+        setLoading(true);
+        const res = await api.get("/api/course");
+        setCourses(res.data.courses || []);
       } catch (error) {
-        console.error('Error fetching courses:', error)
+        console.error("Error fetching courses:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchCourses()
-  }, [])
+    };
+    fetchCourses();
+  }, []);
 
   // ✅ Enroll Handler
   const handleEnroll = async (courseId, courseTitle) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     if (!token) {
-      setPopupMessage('कृपया लॉगिन करें पहले 🙏')
-      setShowPopup(true)
-      return
+      setPopupMessage("कृपया लॉगिन करें पहले 🙏");
+      setShowPopup(true);
+      return;
     }
 
     try {
       const res = await api.post(
-        '/api/enroll',
+        "/api/enroll",
         { courseId },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      )
-      console.log(res)
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log(res);
       if (res.data.success) {
-        setPopupMessage(`✅ आपने "${courseTitle}" कोर्स सफलतापूर्वक ज्वाइन किया!`)
-        setShowPopup(true)
+        setPopupMessage(
+          `✅ आपने "${courseTitle}" कोर्स सफलतापूर्वक ज्वाइन किया!`
+        );
+        setShowPopup(true);
       }
     } catch (err) {
-      console.error(err)
-      const msg = err.response?.data?.message || 'कुछ गलत हो गया 😕'
-      setPopupMessage(msg)
-      setShowPopup(true)
+      console.error(err);
+      const msg = err.response?.data?.message || "कुछ गलत हो गया 😕";
+      setPopupMessage(msg);
+      setShowPopup(true);
     }
-  }
+  };
 
   const handleViewDetails = (course) => {
-    setSelectedCourse(course)
-  }
+    setSelectedCourse(course);
+  };
 
   const handleBackToCourses = () => {
-    setSelectedCourse(null)
-  }
+    setSelectedCourse(null);
+  };
 
   const filteredCourses = courses.filter((course) => {
     const matchesCategory =
-      selectedCategory === 'all' || course.category.id === selectedCategory
+      selectedCategory === "all" || course.category.id === selectedCategory;
 
     const matchesSearch =
       course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (course.category.nameEn &&
-        course.category.nameEn.toLowerCase().includes(searchQuery.toLowerCase()))
+        course.category.nameEn
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()));
 
-    return matchesCategory && matchesSearch
-  })
+    return matchesCategory && matchesSearch;
+  });
 
   if (selectedCourse) {
     return (
@@ -91,7 +107,7 @@ const Courses = () => {
         onBack={handleBackToCourses}
         onEnroll={handleEnroll}
       />
-    )
+    );
   }
 
   return (
@@ -131,8 +147,8 @@ const Courses = () => {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`px-6 py-2 rounded-full font-medium transition-all ${
                   selectedCategory === category.id
-                    ? 'bg-blue-600 text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-200'
+                    ? "bg-blue-600 text-white shadow-lg scale-105"
+                    : "bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-200"
                 }`}
               >
                 {category.name}
@@ -144,7 +160,9 @@ const Courses = () => {
         {/* Loading State */}
         {loading ? (
           <div className="text-center py-16">
-            <p className="text-lg text-gray-600 animate-pulse">लोड हो रहा है...</p>
+            <p className="text-lg text-gray-600 animate-pulse">
+              लोड हो रहा है...
+            </p>
           </div>
         ) : (
           <>
@@ -166,7 +184,10 @@ const Courses = () => {
                   <div>
                     <p className="text-gray-600 text-sm mb-1">कुल छात्र</p>
                     <p className="text-3xl font-bold text-gray-800">
-                      {courses.reduce((acc, c) => acc + (c.studentsEnrolled || 0), 0)}
+                      {courses.reduce(
+                        (acc, c) => acc + (c.studentsEnrolled || 0),
+                        0
+                      )}
                     </p>
                   </div>
                   <Users className="text-green-600" size={40} />
@@ -199,7 +220,7 @@ const Courses = () => {
                     <img
                       src={
                         course.image ||
-                        'https://images.unsplash.com/photo-1498079022511-d15614cb1c02?w=400&h=250&fit=crop'
+                        "https://images.unsplash.com/photo-1498079022511-d15614cb1c02?w=400&h=250&fit=crop"
                       }
                       alt={course.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
@@ -294,12 +315,12 @@ const Courses = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 // 🆕 Course Detail Component
 const CourseDetail = ({ course, onBack, onEnroll }) => {
-  const [activeTab, setActiveTab] = useState('overview')
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -317,7 +338,7 @@ const CourseDetail = ({ course, onBack, onEnroll }) => {
             <img
               src={
                 course.image ||
-                'https://images.unsplash.com/photo-1498079022511-d15614cb1c02?w=400&h=250&fit=crop'
+                "https://images.unsplash.com/photo-1498079022511-d15614cb1c02?w=400&h=250&fit=crop"
               }
               alt={course.title}
               className="w-full md:w-80 h-48 object-cover rounded-lg shadow-lg"
@@ -354,31 +375,31 @@ const CourseDetail = ({ course, onBack, onEnroll }) => {
           <div className="border-b">
             <div className="flex gap-8 px-6">
               <button
-                onClick={() => setActiveTab('overview')}
+                onClick={() => setActiveTab("overview")}
                 className={`py-4 font-medium border-b-2 transition-colors ${
-                  activeTab === 'overview'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-600 hover:text-gray-800'
+                  activeTab === "overview"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-800"
                 }`}
               >
                 विवरण
               </button>
               <button
-                onClick={() => setActiveTab('lessons')}
+                onClick={() => setActiveTab("lessons")}
                 className={`py-4 font-medium border-b-2 transition-colors ${
-                  activeTab === 'lessons'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-600 hover:text-gray-800'
+                  activeTab === "lessons"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-800"
                 }`}
               >
                 पाठ्यक्रम
               </button>
               <button
-                onClick={() => setActiveTab('instructor')}
+                onClick={() => setActiveTab("instructor")}
                 className={`py-4 font-medium border-b-2 transition-colors ${
-                  activeTab === 'instructor'
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-600 hover:text-gray-800'
+                  activeTab === "instructor"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-800"
                 }`}
               >
                 शिक्षक
@@ -388,7 +409,7 @@ const CourseDetail = ({ course, onBack, onEnroll }) => {
 
           {/* Tab Content */}
           <div className="p-6">
-            {activeTab === 'overview' && (
+            {activeTab === "overview" && (
               <div>
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">
                   कोर्स के बारे में
@@ -429,65 +450,52 @@ const CourseDetail = ({ course, onBack, onEnroll }) => {
               </div>
             )}
 
-            {activeTab === 'lessons' && (
+            {activeTab === "lessons" && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">पाठ्यक्रम</h2>
-                <div className="space-y-3">
-                  {course.lessons && course.lessons.length > 0 ? (
-                    course.lessons.map((lesson, index) => (
-                      <div
-                        key={lesson._id || index}
-                        className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-                            {index + 1}
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-gray-800">
-                              {lesson.title || `लेसन ${index + 1}`}
-                            </h3>
-                            <p className="text-sm text-gray-600">
-                              {lesson.duration || '30 मिनट'}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-gray-400">
-                          {lesson.completed ? '✓' : '○'}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-600 text-center py-8">
-                      जल्द ही लेसन जोड़े जाएंगे
-                    </p>
-                  )}
-                </div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                  पाठ्यक्रम
+                </h2>
+
+                {course.lessons?.map((lesson, index) => (
+                  <div
+                    key={index}
+                    className="mb-10 bg-gray-50 p-5 rounded-xl shadow"
+                  >
+                    <h3 className="text-xl font-semibold mb-3">
+                      {lesson.title || `लेसन ${index + 1}`}
+                      
+                    </h3>
+
+                    {/* VIDEO PLAYER */}
+                    <VideoPlayer videoUrl={lesson.videoUrl} />
+                    
+                  </div>
+                ))}
               </div>
             )}
 
-            {activeTab === 'instructor' && (
+            {activeTab === "instructor" && (
               <div>
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">
                   आपके शिक्षक
                 </h2>
                 <div className="flex items-start gap-6">
                   <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-green-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">
-                    {course.instructor?.charAt(0) || 'T'}
+                    {course.instructor?.charAt(0) || "T"}
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-800 mb-2">
-                      {course.instructor || 'शिक्षक'}
+                      {course.instructor || "शिक्षक"}
                     </h3>
                     <p className="text-gray-600 mb-4">
-                      अनुभवी शिक्षक | {course.category?.nameEn || 'विशेषज्ञ'}
+                      अनुभवी शिक्षक | {course.category?.nameEn || "विशेषज्ञ"}
                     </p>
                     <p className="text-gray-700 leading-relaxed">
                       10+ वर्षों के शिक्षण अनुभव के साथ, हमारे शिक्षक गाँव के
-                      विद्यार्थियों को गुणवत्तापूर्ण शिक्षा प्रदान करने में विश्वास
-                      रखते हैं। सरल भाषा और व्यावहारिक उदाहरणों के साथ पढ़ाने की
-                      उनकी अनूठी शैली छात्रों को विषय को आसानी से समझने में मदद
-                      करती है।
+                      विद्यार्थियों को गुणवत्तापूर्ण शिक्षा प्रदान करने में
+                      विश्वास रखते हैं। सरल भाषा और व्यावहारिक उदाहरणों के साथ
+                      पढ़ाने की उनकी अनूठी शैली छात्रों को विषय को आसानी से
+                      समझने में मदद करती है।
                     </p>
                   </div>
                 </div>
@@ -497,7 +505,7 @@ const CourseDetail = ({ course, onBack, onEnroll }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Courses
+export default Courses;
