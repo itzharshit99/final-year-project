@@ -10,7 +10,7 @@ export default function AdminLayout({ children }) {
   const menuItems = [
     { icon: Home, label: "Dashboard", path: "/dashboard" },
     { icon: BookOpen, label: "Courses", path: "/course" },
-    { icon: Video, label: "Videos", path: "/videos" },
+    { icon: Video, label: "All Courses", path: "/all-course" },
     { icon: Users, label: "Students", path: "/students" },
     { icon: GraduationCap, label: "Teachers", path: "/teachers" },
     { icon: Award, label: "Certificates", path: "/certificates" },

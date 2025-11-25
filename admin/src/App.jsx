@@ -5,6 +5,7 @@ import AdminDashboard from "./pages/AdminDashboard ";
 import HomePage from "./pages/HomePage";
 import AddCourse from "./pages/AddCourse";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import AllCourses from "./pages/AllCourses";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           }
         />
         <Route path="/course" element={<AddCourse />} />
+        <Route path="/all-course" element={<AllCourses/>} />
       </Routes>
     </div>
   );
