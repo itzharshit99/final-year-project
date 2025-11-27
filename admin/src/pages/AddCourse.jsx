@@ -50,7 +50,7 @@ export default function AddCourse() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ⭐ token added
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -67,105 +67,105 @@ export default function AddCourse() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-50 py-8 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-gray-800 mb-1">
               Create New Course
             </h1>
-            <p className="text-gray-600">
+            <p className="text-sm text-gray-500">
               Fill in the details to add a new course to your platform
             </p>
           </div>
 
           {/* Form Card */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
             <div className="space-y-8">
               {/* Basic Information Section */}
-              <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-gray-800 border-b pb-3 flex items-center gap-2">
-                  <span className="text-indigo-600">📚</span> Basic Information
+              <div className="space-y-5">
+                <h2 className="text-lg font-semibold text-gray-800 pb-2 border-b border-gray-200">
+                  📚 Basic Information
                 </h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
                     Course Title *
                   </label>
                   <input
                     name="title"
                     placeholder="Enter course title"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                    className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none"
                     onChange={handleChange}
                     value={formData.title}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
                     Course Description *
                   </label>
                   <textarea
                     name="description"
                     placeholder="Write a detailed description of the course"
                     rows="4"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none resize-none"
+                    className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none resize-none"
                     onChange={handleChange}
                     value={formData.description}
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Instructor Name *
                     </label>
                     <input
                       name="instructor"
                       placeholder="Enter instructor name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                      className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none"
                       onChange={handleChange}
                       value={formData.instructor}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Price (₹) *
                     </label>
                     <input
                       name="price"
                       type="number"
                       placeholder="0"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                      className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none"
                       onChange={handleChange}
                       value={formData.price}
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Language *
                     </label>
                     <input
                       name="language"
                       placeholder="e.g., Hindi, English"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                      className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none"
                       onChange={handleChange}
                       value={formData.language}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Class/Level *
                     </label>
                     <input
                       name="class"
                       placeholder="e.g., Class 10, Beginner"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                      className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none"
                       onChange={handleChange}
                       value={formData.class}
                     />
@@ -174,26 +174,26 @@ export default function AddCourse() {
               </div>
 
               {/* Lessons Section */}
-              <div className="space-y-6">
-                <div className="flex items-center justify-between border-b pb-3">
-                  <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
-                    <span className="text-indigo-600">🎥</span> Course Lessons
+              <div className="space-y-5">
+                <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    🎥 Course Lessons
                   </h2>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
                     {formData.lessons.length}{" "}
                     {formData.lessons.length === 1 ? "Lesson" : "Lessons"}
                   </span>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {formData.lessons.map((lesson, index) => (
                     <div
                       key={index}
-                      className="p-6 border-2 border-gray-200 rounded-xl bg-gradient-to-br from-gray-50 to-white hover:shadow-md transition duration-200"
+                      className="p-5 border border-gray-200 rounded-lg bg-gray-50 hover:border-gray-300 transition"
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                          <span className="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm">
+                        <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                          <span className="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
                             {index + 1}
                           </span>
                           Lesson {index + 1}
@@ -202,11 +202,11 @@ export default function AddCourse() {
                           <button
                             type="button"
                             onClick={() => removeLesson(index)}
-                            className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition duration-200"
+                            className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition"
                             title="Remove lesson"
                           >
                             <svg
-                              className="w-5 h-5"
+                              className="w-4 h-4"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -222,14 +222,14 @@ export default function AddCourse() {
                         )}
                       </div>
 
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
                             Lesson Title *
                           </label>
                           <input
                             placeholder="Enter lesson title"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                            className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none bg-white"
                             value={lesson.title}
                             onChange={(e) =>
                               handleLessonChange(index, "title", e.target.value)
@@ -237,14 +237,14 @@ export default function AddCourse() {
                           />
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
                               Video URL *
                             </label>
                             <input
                               placeholder="https://..."
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                              className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none bg-white"
                               value={lesson.videoUrl}
                               onChange={(e) =>
                                 handleLessonChange(
@@ -257,12 +257,12 @@ export default function AddCourse() {
                           </div>
 
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">
                               Duration *
                             </label>
                             <input
                               placeholder="e.g., 20 min"
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                              className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none bg-white"
                               value={lesson.duration}
                               onChange={(e) =>
                                 handleLessonChange(
@@ -276,12 +276,12 @@ export default function AddCourse() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
                             Resource URL (Optional)
                           </label>
                           <input
                             placeholder="https://..."
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 outline-none"
+                            className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition outline-none bg-white"
                             value={lesson.resources[0]}
                             onChange={(e) =>
                               handleLessonChange(index, "resources", [
@@ -298,10 +298,10 @@ export default function AddCourse() {
                 <button
                   type="button"
                   onClick={addLesson}
-                  className="w-full py-3 px-4 border-2 border-dashed border-indigo-300 text-indigo-600 rounded-lg hover:bg-indigo-50 hover:border-indigo-400 transition duration-200 font-medium flex items-center justify-center gap-2"
+                  className="w-full py-2.5 px-4 border-2 border-dashed border-gray-300 text-gray-600 text-sm rounded-lg hover:bg-gray-50 hover:border-gray-400 transition font-medium flex items-center justify-center gap-2"
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -318,11 +318,11 @@ export default function AddCourse() {
               </div>
 
               {/* Submit Button */}
-              <div className="pt-6">
+              <div className="pt-4">
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  className="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-lg font-semibold hover:shadow-md transition"
                 >
                   Create Course 🚀
                 </button>
