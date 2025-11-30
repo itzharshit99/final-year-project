@@ -11,11 +11,10 @@ export default function AdminLayout({ children }) {
     { icon: Home, label: "Dashboard", labelHi: "डैशबोर्ड", path: "/dashboard" },
     { icon: BookOpen, label: "Courses", labelHi: "पाठ्यक्रम", path: "/course" },
     { icon: Video, label: "All Courses", labelHi: "सभी कोर्स", path: "/all-course" },
-    { icon: Users, label: "Analytics", labelHi: "छात्र", path: "/analytics" },
+    { icon: BarChart3, label: "Analytics", labelHi: "छात्र", path: "/analytics" },
     { icon: GraduationCap, label: "Teachers", labelHi: "शिक्षक", path: "/teachers" },
     { icon: Award, label: "Certificates", labelHi: "प्रमाण पत्र", path: "/certificates" },
     { icon: FileText, label: "Content", labelHi: "सामग्री", path: "/content" },
-    { icon: BarChart3, label: "Analytics", labelHi: "विश्लेषण", path: "/analytics" },
     { icon: Settings, label: "Settings", labelHi: "सेटिंग्स", path: "/settings" },
   ];
 
