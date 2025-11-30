@@ -8,6 +8,7 @@ import studentRoute from "./routes/student.route.js";
 import courseRoute from "./routes/course.route.js";
 import adminRoute from "./routes/admin.route.js";
 import enrollRoute from "./routes/enroll.route.js"
+import contactRoute from "./routes/contact.route.js";
 dotenv.config()
 connectDB()
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api/student",studentRoute);
 app.use("/api/course",courseRoute);
 app.use("/api/admin",adminRoute);
 app.use("/api/enroll",enrollRoute);
+app.use("/api/contact",contactRoute);
 app.listen(port,()=>{
   console.log(`server is listening on port ${port}`);
 })
