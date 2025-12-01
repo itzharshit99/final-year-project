@@ -8,6 +8,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import AllCourses from "./pages/AllCourses";
 import AdminAnalytics from "./pages/AdminAnalytics";
 import ContactAnalysisDashboard from "./pages/ContactAnalysisDashboard";
+import CategoryDetailedReport from "./pages/CategoryDetailedReport";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/all-course" element={<AllCourses/>} />
         <Route path="/analytics" element={<AdminAnalytics/>} />
         <Route path="/contacts" element={<ContactAnalysisDashboard/>} />
+        <Route path="/category-analysis" element={<CategoryDetailedReport/>} />
 
       </Routes>
     </div>
