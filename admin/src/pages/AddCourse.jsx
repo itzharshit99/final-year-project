@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AdminLayout from "../layout/AdminLayout";
-
+import axios from "axios";
+import api from "../api/axios";
 export default function AddCourse() {
   const [formData, setFormData] = useState({
     title: "",
@@ -42,22 +43,23 @@ export default function AddCourse() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const token = localStorage.getItem("adminToken");
-
-      const res = await fetch("http://localhost:3000/api/course", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      console.log("API Response:", data);
-
+  
+      const response = await api.post(
+        "/api/course",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      console.log("API Response:", response.data);
+  
       alert("Course created successfully! 🚀");
     } catch (error) {
       console.error("Error creating course:", error);
