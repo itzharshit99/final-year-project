@@ -12,7 +12,7 @@ export default function AdminLayout({ children }) {
     { icon: BookOpen, label: "Courses", labelHi: "पाठ्यक्रम", path: "/course" },
     { icon: Video, label: "All Courses", labelHi: "सभी कोर्स", path: "/all-course" },
     { icon: BarChart3, label: "Analytics", labelHi: "छात्र", path: "/analytics" },
-    { icon: GraduationCap, label: "Teachers", labelHi: "शिक्षक", path: "/teachers" },
+    { icon: GraduationCap, label: "Contacts", labelHi: "शिक्षक", path: "/contacts" },
     { icon: Award, label: "Certificates", labelHi: "प्रमाण पत्र", path: "/certificates" },
     { icon: FileText, label: "Content", labelHi: "सामग्री", path: "/content" },
     { icon: Settings, label: "Settings", labelHi: "सेटिंग्स", path: "/settings" },

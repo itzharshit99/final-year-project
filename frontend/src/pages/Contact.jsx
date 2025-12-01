@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Mail, Phone, MapPin, Clock, MessageCircle, Send, CheckCircle } from 'lucide-react'
-
+import axios from "axios";
+import api from '../api/axios';
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -22,24 +23,44 @@ const Contact = () => {
     }))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Contact form submitted:', formData)
-    setIsSubmitted(true)
-    
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({
-        name: '',
-        email: '',
-        mobile: '',
-        category: '',
-        subject: '',
-        message: '',
-        preferredLanguage: 'hindi'
-      })
-    }, 3000)
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      // API POST Request
+      const response = await api.post(
+        "/api/contact",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+  
+      console.log("API Response:", response.data);
+  
+      setIsSubmitted(true);
+  
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: "",
+          email: "",
+          mobile: "",
+          category: "",
+          subject: "",
+          message: "",
+          preferredLanguage: "hindi",
+        });
+      }, 3000);
+  
+    } catch (error) {
+      console.log("API Error: ", error);
+  
+      alert("Something went wrong, please try again!");
+    }
+  };
 
   const contactMethods = [
     {
