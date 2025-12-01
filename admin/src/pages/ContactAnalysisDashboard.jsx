@@ -16,6 +16,7 @@ import {
 } from "recharts";
 import { Users, MessageSquare, TrendingUp, Calendar } from "lucide-react";
 import AdminLayout from "../layout/AdminLayout";
+import api from "../api/axios";
 
 export default function ContactAnalysisDashboard() {
   const [data, setData] = useState(null);
@@ -29,15 +30,16 @@ export default function ContactAnalysisDashboard() {
   const fetchAnalytics = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        "http://localhost:3000/api/contact/analysis/category"
+  
+      const response = await api.get(
+        "/api/contact/analysis/category"
       );
-      if (!response.ok) throw new Error("Failed to fetch data");
-      const result = await response.json();
-      setData(result.data);
+  
+      setData(response.data.data); // axios auto JSON parse karta hai
       setError(null);
+  
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }

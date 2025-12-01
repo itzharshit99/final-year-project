@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminLayout from "../layout/AdminLayout";
 import EditCourseModal from "../components/EditCourse.jsx";
+import api from "../api/axios";
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -20,7 +21,7 @@ const AllCourses = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:3000/api/course', {
+      const response = await api.get('/api/course', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -60,7 +61,7 @@ const AllCourses = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`http://localhost:3000/api/course/${courseId}`, {
+      await api.delete(`/api/course/${courseId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

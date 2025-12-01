@@ -19,6 +19,7 @@ import {
   Loader,
 } from "lucide-react";
 import AdminLayout from "../layout/AdminLayout";
+import api from "../api/axios";
 
 const AdminDashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -34,8 +35,8 @@ const AdminDashboard = () => {
       setLoading(true);
       const token = localStorage.getItem("adminToken");
       
-      const response = await axios.get(
-        "http://localhost:3000/api/admin/dashboard/summary",
+      const response = await api.get(
+        "/api/admin/dashboard/summary",
         {
           headers: {
             Authorization: `Bearer ${token}`,

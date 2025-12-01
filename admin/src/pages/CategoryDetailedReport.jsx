@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminLayout from "../layout/AdminLayout";
+import api from "../api/axios";
 
 export default function CategoryDetailedReport() {
   const [selectedCategory, setSelectedCategory] = useState("छात्र / Student");
@@ -26,8 +27,8 @@ export default function CategoryDetailedReport() {
       setLoading(true);
       setError(null);
 
-      const response = await axios.get(
-        `http://localhost:3000/api/contact/analysis/category/${encodeURIComponent(
+      const response = await api.get(
+        `/api/contact/analysis/category/${encodeURIComponent(
           selectedCategory
         )}`,
         {

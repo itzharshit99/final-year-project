@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import api from "../api/axios";
 
 export default function HomePage() {
   const [email, setEmail] = useState("");
@@ -11,29 +12,32 @@ export default function HomePage() {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-
+  
     try {
-      const res = await fetch("http://localhost:3000/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Invalid credentials");
-        setIsLoading(false);
-        return;
-      }
-
+      const response = await api.post(
+        "/api/admin/login",
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      const data = response.data;
+  
+      // Save token & admin info
       localStorage.setItem("adminToken", data.token);
       localStorage.setItem("adminInfo", JSON.stringify(data.admin));
-
-      // Navigate to dashboard - you'll need to implement this with your router
+  
+      // Redirect
       window.location.href = "/dashboard";
+  
     } catch (err) {
-      setError("Connection error. Please try again.");
+      const message =
+        err.response?.data?.message || "Connection error. Please try again.";
+      setError(message);
+    } finally {
       setIsLoading(false);
     }
   };
