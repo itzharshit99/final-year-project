@@ -18,6 +18,7 @@ import {
   Target,
 } from "lucide-react";
 import AdminLayout from "../layout/AdminLayout";
+import api from "../api/axios";
 
 const AdminAnalytics = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
@@ -33,8 +34,8 @@ const AdminAnalytics = () => {
       setLoading(true);
       const token = localStorage.getItem("adminToken");
 
-      const response = await axios.get(
-        "http://localhost:3000/api/admin/analytics",
+      const response = await api.get(
+        "/api/admin/analytics",
         {
           headers: {
             Authorization: `Bearer ${token}`,
