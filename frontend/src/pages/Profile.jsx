@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import api from "../api/axios.js";
+
 export default function Profile() {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,16 +40,11 @@ export default function Profile() {
         },
       });
 
-      // console.log("Full Response:", response);
-      // console.log("Response Data:", response.data);
-
-      // Axios mein status check karna
       if (response.status === 200) {
         const data = response.data;
 
         if (data.student) {
           setStudent(data.student);
-          // console.log("Student data set:", data.student);
         } else {
           setError("Unable to fetch student details");
         }
@@ -102,24 +98,25 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-yellow-50">
-      {/* Header */}
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-yellow-50 py-8">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Profile Hero Card */}
-        <div className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 rounded-3xl p-1 shadow-2xl mb-6">
-          <div className="bg-white rounded-3xl p-8">
-            <div className="flex flex-col md:flex-row items-center gap-6">
+        <div className="bg-white rounded-3xl shadow-2xl mb-8 overflow-hidden">
+          <div className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 h-32"></div>
+          <div className="px-8 pb-8">
+            <div className="flex flex-col md:flex-row items-center md:items-end gap-6 -mt-16">
               <div className="relative">
-                <div className="w-32 h-32 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                  <User className="w-16 h-16 text-white" />
+                <div className="w-32 h-32 bg-white rounded-full p-2 shadow-xl">
+                  <div className="w-full h-full bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+                    <User className="w-16 h-16 text-white" />
+                  </div>
                 </div>
-                <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg">
+                <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
                   <GraduationCap className="w-6 h-6 text-gray-800" />
                 </div>
               </div>
 
-              <div className="flex-1 text-center md:text-left">
+              <div className="flex-1 text-center md:text-left mt-4 md:mt-0">
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-2">
                   {student.firstName} {student.lastName}
                 </h2>
@@ -146,17 +143,19 @@ export default function Profile() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Personal Information Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-green-400">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-500 rounded-lg flex items-center justify-center">
-                <Users className="w-6 h-6 text-white" />
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-green-400 to-green-500 p-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white bg-opacity-30 rounded-lg flex items-center justify-center">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white">
+                  व्यक्तिगत जानकारी / Personal Info
+                </h3>
               </div>
-              <h3 className="text-xl font-bold text-gray-800">
-                व्यक्तिगत जानकारी / Personal Info
-              </h3>
             </div>
 
-            <div className="space-y-4">
+            <div className="p-6 space-y-4">
               <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
                 <User className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
                 <div>
@@ -206,17 +205,19 @@ export default function Profile() {
           </div>
 
           {/* Contact Information Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-blue-400">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg flex items-center justify-center">
-                <Mail className="w-6 h-6 text-white" />
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-400 to-blue-500 p-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white bg-opacity-30 rounded-lg flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white">
+                  संपर्क जानकारी / Contact Info
+                </h3>
               </div>
-              <h3 className="text-xl font-bold text-gray-800">
-                संपर्क जानकारी / Contact Info
-              </h3>
             </div>
 
-            <div className="space-y-4">
+            <div className="p-6 space-y-4">
               <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
                 <Mail className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
                 <div className="flex-1 min-w-0">
@@ -261,17 +262,19 @@ export default function Profile() {
         </div>
 
         {/* Location Card */}
-        <div className="mt-6 bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 rounded-3xl p-1 shadow-xl">
-          <div className="bg-white rounded-3xl p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
+        <div className="mt-6 bg-white rounded-3xl shadow-xl overflow-hidden">
+          <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white bg-opacity-30 rounded-lg flex items-center justify-center">
                 <MapPin className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800">
+              <h3 className="text-xl font-bold text-white">
                 स्थान विवरण / Location Details
               </h3>
             </div>
+          </div>
 
+          <div className="p-6">
             <div className="grid md:grid-cols-3 gap-4">
               <div className="p-4 bg-gradient-to-br from-green-50 to-blue-50 rounded-xl">
                 <p className="text-sm text-gray-600 mb-1">राज्य / State</p>
@@ -293,7 +296,7 @@ export default function Profile() {
         <div className="mt-6 grid md:grid-cols-2 gap-4">
           <Link
             to="/my-courses"
-            className="bg-gradient-to-r from-green-500 to-blue-500 text-white py-4 rounded-2xl font-bold hover:from-green-600 hover:to-blue-600 transition-all shadow-lg text-lg"
+            className="bg-gradient-to-r from-green-500 to-blue-500 text-white py-4 rounded-2xl font-bold hover:from-green-600 hover:to-blue-600 transition-all shadow-lg text-lg text-center"
           >
             📚 मेरे कोर्स / My Courses
           </Link>
