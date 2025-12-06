@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import api from "../api/axios.js";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const SignUp = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -496,9 +496,9 @@ const SignUp = () => {
             <div className="text-center mt-6 pt-4 border-t border-gray-100">
               <p className="text-gray-600 text-sm">
                 पहले से खाता है? / Already have an account?{' '}
-                <a href="#" className="text-green-600 hover:text-green-800 font-semibold transition-colors">
+                <Link to="/login" className="text-green-600 hover:text-green-800 font-semibold transition-colors">
                   लॉग इन करें / Login
-                </a>
+                </Link>
               </p>
             </div>
 
