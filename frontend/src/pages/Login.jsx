@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import api from "../api/axios.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -174,12 +174,12 @@ const Login = () => {
             <div className="text-center mt-6 pt-4 border-t border-gray-100">
               <p className="text-gray-600 text-sm">
                 नया खाता बनाएं? / Don't have an account?{" "}
-                <a
-                  href="#"
+                <Link
+                  to='/sign-up'
                   className="text-green-600 hover:text-green-800 font-semibold transition-colors"
                 >
                   साइन अप करें / Sign up
-                </a>
+                </Link>
               </p>
             </div>
 
